@@ -15,6 +15,7 @@ FileName=$(expdb_recipe_update)
 conda build /reg/g/psdm/sw/conda/manage/recipes/psana/psana-expdb
 
 
+#File path name needs to be corrected before conda upload can work.
 Temp="/reg/g/psdm/sw/conda/inst/miniconda2-dev-rhel5/conda-bld/linux-64/"
 
 FilePath=${Temp}${FileName}
@@ -24,5 +25,12 @@ anaconda upload -u lcls-rhel5 $FilePath
 anaconda upload -u lcls-rhel6 $FilePath
 anaconda upload -u lcls-rhel7 $FilePath
 
-# moving the file for work on local machine
-mv $FilePath /reg/g/psdm/sw/conda/channels/system-rhel7/linux-64
+#moving file to rhel 5, 6, and 7
+cp $FilePath /reg/g/psdm/sw/conda/channels/system-rhel7/linux-64
+conda index /reg/g/psdm/sw/conda/channels/system-rhel7/linux-64
+
+cp $FilePath /reg/g/psdm/sw/conda/channels/system-rhel6/linux-64
+conda index /reg/g/psdm/sw/conda/channels/system-rhel6/linux-64
+
+cp $FilePath /reg/g/psdm/sw/conda/channels/system-rhel5/linux-64
+conda index /reg/g/psdm/sw/conda/channels/system-rhel5/linux-64
