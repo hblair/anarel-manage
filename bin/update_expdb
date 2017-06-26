@@ -1,14 +1,27 @@
 #!/bin/bash
 
+#Check that we build on the oldest possible machine for conda compatibility
+rhel_version=$(less /etc/redhat-release | grep -o -E '[0-9]+' | head -1)
+
+if [[ $rhel_version != "5" ]]; then
+  echo "Error: need to build on rhel5"
+  exit 1
+fi
+
 #Change meta.yaml
-FileName = $(expdb_recipe_update) 
+FileName=$(expdb_recipe_update) 
 
 #Commence Building Operation
 conda build /reg/g/psdm/sw/conda/manage/recipes/psana/psana-expdb
 
-Temp = "/reg/neh/home/hblair/conda-bld/linux-64/"
 
-FilePath = ${Temp}${FileName}
+Temp="/reg/g/psdm/sw/conda/inst/miniconda2-dev-rhel5/conda-bld/linux-64/"
+
+FilePath=${Temp}${FileName}
 
 #Initializing Upload to Anaconda.org
-anaconda upload $TilePath
+anaconda upload -u lcls-rhel5 $FilePath
+anaconda upload -u lcls-rhel6 $FilePath
+anaconda upload -u lcls-rhel7 $FilePath
+
+mv $FilePath /reg/g/psdm/sw/conda/channels/system-rhel7/linux-64
