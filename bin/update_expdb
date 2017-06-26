@@ -24,4 +24,5 @@ anaconda upload -u lcls-rhel5 $FilePath
 anaconda upload -u lcls-rhel6 $FilePath
 anaconda upload -u lcls-rhel7 $FilePath
 
+# moving the file for work on local machine
 mv $FilePath /reg/g/psdm/sw/conda/channels/system-rhel7/linux-64
